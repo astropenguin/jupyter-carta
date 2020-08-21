@@ -12,8 +12,8 @@ from requests import get, ConnectionError
 
 
 # constants
-CARTA_PATH = Path() / "carta" / "carta"
-NGROK_PATH = Path() / "carta" / "ngrok"
+CARTA_PATH = (Path() / "carta" / "carta").resolve()
+NGROK_PATH = (Path() / "carta" / "ngrok").resolve()
 
 
 def get_url(port):
@@ -40,9 +40,9 @@ def run_carta(
     host = gethostbyname(gethostname())
     popen = partial(Popen, stdin=PIPE, stdout=PIPE, stderr=STDOUT)
 
-    popen([carta_path, "--remote", f"--port={port}", f"--fport={fport}"])
-    popen([ngrok_path, "http", f"{host}:{fport}"])
-    popen([ngrok_path, "http", f"{host}:{port}"])
+    popen([str(carta_path), "--remote", f"--port={port}", f"--fport={fport}"])
+    popen([str(ngrok_path), "http", f"{host}:{fport}"])
+    popen([str(ngrok_path), "http", f"{host}:{port}"])
 
     href = f"https://{get_url(4040)}/?socketUrl=wss://{get_url(4041)}"
     return HTML(f'<p><a href="{href}" target="_blank">Open CARTA</a></p>')
