@@ -3,11 +3,9 @@ from functools import partial
 from pathlib import Path
 from socket import gethostbyname, gethostname
 from subprocess import Popen, PIPE, STDOUT
-from typing import Optional
 
 
 # dependencies
-from IPython.display import HTML
 from requests import get, ConnectionError
 
 
@@ -17,7 +15,7 @@ NGROK_PATH = (Path() / "carta" / "ngrok").resolve()
 
 
 def get_ngrok_url(port: int) -> str:
-    """Get an ngrok URL."""
+    """Get an ngrok URL without raising errors."""
     while True:
         try:
             ret = get(f"http://localhost:{port}/api/tunnels")
