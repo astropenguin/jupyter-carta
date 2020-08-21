@@ -36,7 +36,7 @@ def run_carta(
     carta_path: Path = CARTA_PATH,
     ngrok_path: Path = NGROK_PATH,
 ) -> None:
-    """Run CARTA server and create an open URL."""
+    """Run CARTA server and create an open link."""
     host = gethostbyname(gethostname())
     popen = partial(Popen, stdin=PIPE, stdout=PIPE, stderr=STDOUT)
 
@@ -45,7 +45,7 @@ def run_carta(
     popen([str(ngrok_path), "http", f"{host}:{port}"])
 
     href = f"https://{get_ngrok_url(4040)}/?socketUrl=wss://{get_ngrok_url(4041)}"
-    print(f"CARTA has started. Open here: {href}")
+    print(f"CARTA has started. Open it from: {href}")
 
 
 if __name__ == "__main__":
