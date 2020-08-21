@@ -16,7 +16,8 @@ CARTA_PATH = (Path() / "carta" / "carta").resolve()
 NGROK_PATH = (Path() / "carta" / "ngrok").resolve()
 
 
-def get_url(port):
+def get_ngrok_url(port: int) -> str:
+    """Get an ngrok URL."""
     while True:
         try:
             ret = get(f"http://localhost:{port}/api/tunnels")
@@ -32,11 +33,12 @@ def get_url(port):
 
 
 def run_carta(
-    port: int = 2020,
-    fport: int = 2030,
+    port: int = 41578,
+    fport: int = 39138,
     carta_path: Path = CARTA_PATH,
     ngrok_path: Path = NGROK_PATH,
-):
+) -> None:
+    """Run CARTA server and create an open URL."""
     host = gethostbyname(gethostname())
     popen = partial(Popen, stdin=PIPE, stdout=PIPE, stderr=STDOUT)
 
@@ -44,9 +46,8 @@ def run_carta(
     popen([str(ngrok_path), "http", f"{host}:{fport}"])
     popen([str(ngrok_path), "http", f"{host}:{port}"])
 
-    href = f"https://{get_url(4040)}/?socketUrl=wss://{get_url(4041)}"
-    print(href)
-    return HTML(f'<p><a href="{href}" target="_blank">Open CARTA</a></p>')
+    href = f"https://{get_ngrok_url(4040)}/?socketUrl=wss://{get_ngrok_url(4041)}"
+    print(f"CARTA has started. Open here: {href}")
 
 
 if __name__ == "__main__":
