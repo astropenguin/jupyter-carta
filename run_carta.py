@@ -45,6 +45,7 @@ def run_carta(
     popen([str(ngrok_path), "http", f"{host}:{port}"])
 
     href = f"https://{get_url(4040)}/?socketUrl=wss://{get_url(4041)}"
+    print(href)
     return HTML(f'<p><a href="{href}" target="_blank">Open CARTA</a></p>')
 
 
